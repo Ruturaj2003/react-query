@@ -15,6 +15,14 @@ const SingleItem = ({ item }) => {
       qryClinet.invalidateQueries({ queryKey: ['tasks'] });
     },
   });
+  const { mutate: deleteTask } = useMutation({
+    mutationFn: ({ taskId }) => {
+      return customFetch.delete(`/${taskId}`);
+    },
+    onSuccess() {
+      qryClinet.invalidateQueries({ queryKey: ['tasks'] });
+    },
+  });
   return (
     <div className="single-item">
       <input
@@ -33,7 +41,7 @@ const SingleItem = ({ item }) => {
       <button
         className="btn remove-btn"
         type="button"
-        onClick={() => console.log('delete task')}
+        onClick={() => deleteTask({ taskId: item.id })}
       >
         delete
       </button>
